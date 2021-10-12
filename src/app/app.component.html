@@ -1,0 +1,24 @@
+<hello name="{{ name }}"></hello>
+<p>This is a sample of a input highlighter</p>
+<div textInputHighlightContainer>
+  <textarea
+    textInputElement
+    rows="6"
+    class="form-control"
+    [formControl]="textValue"
+    #textarea
+    (input)="addTags()"
+  ></textarea>
+  <input-highlight
+    [tags]="tags"
+    [tagCssClass]="'bg-blue'"
+    [textInputElement]="textarea"
+    (tagMouseEnter)="addDarkClass($event.target)"
+    (tagMouseLeave)="removeDarkClass($event.target)"
+    (tagClick)="tagClicked = $event.tag"
+  >
+  </input-highlight>
+</div>
+<div class="alert alert-info" *ngIf="tagClicked">
+  Tag clicked! {{ tagClicked.data }}
+</div>

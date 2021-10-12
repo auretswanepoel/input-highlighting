@@ -23,29 +23,16 @@ export class AppComponent implements OnInit {
 
   addTags() {
     this.tags = [];
-    const matchMentions = /(@\w+) ?/g;
+    const matchMentions = /{{([\'\:\_\-a-zA-Z-9\s])*}}/g;
     let mention;
 
     while ((mention = matchMentions.exec(this.textValue.value))) {
       this.tags.push({
         indices: {
           start: mention.index,
-          end: mention.index + mention[1].length,
+          end: mention.index + mention[0].length,
         },
-        data: mention[1],
-      });
-    }
-
-    const matchHashtags = /({{\w+}}) ?/g;
-    let hashtag;
-    while ((hashtag = matchHashtags.exec(this.textValue.value))) {
-      this.tags.push({
-        indices: {
-          start: hashtag.index,
-          end: hashtag.index + hashtag[1].length,
-        },
-        cssClass: 'bg-pink',
-        data: hashtag[1],
+        data: mention[0],
       });
     }
   }

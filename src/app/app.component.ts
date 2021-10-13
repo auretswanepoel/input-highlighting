@@ -14,7 +14,11 @@ export class AppComponent implements OnInit {
     `Hello @auret how are you today?\n\nLook I have a #different {{requester_firstName}} color!\n\n{{date logEntry_decidedOn 'yyyy-MM-dd HH:mm'}} is pretty awesome!`
   );
   mentionConfig = {
-    items: <string[]>['Noah', 'Liam', 'Mason', 'Jacob'],
+    items: <string[]>[
+      'requester_firstname',
+      'requester_lasstname',
+      'requester_email',
+    ],
     triggerChar: '@',
     mentionSelect: this.formatInput,
   };

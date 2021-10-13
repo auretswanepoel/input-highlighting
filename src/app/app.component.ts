@@ -1,4 +1,11 @@
-import { Component, OnInit, VERSION, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  VERSION,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HighlightTag } from '../input-highlight/model/highlight-tag.model';
 
@@ -14,25 +21,26 @@ export class AppComponent implements OnInit {
     `Hello @auret how are you today?\n\nLook I have a #different {{requester_firstName}} color!\n\n{{date logEntry_decidedOn 'yyyy-MM-dd HH:mm'}} is pretty awesome!`
   );
   mentionConfig = {
-    items: <string[]>[
-      'requester_firstname',
-      'requester_lasstname',
-      'requester_email',
+    mentions: [
+      {
+        items: <string[]>[
+          'requester_firstname',
+          'requester_lasstname',
+          'requester_email',
+        ],
+        triggerChar: '@',
+        mentionSelect: this.formatInput,
+      },
+      {
+        items: <string[]>['date', 'number', 'currency'],
+        triggerChar: '#',
+        mentionSelect: this.formatFunctionInput,
+      },
     ],
-    triggerChar: '@',
-    mentionSelect: this.formatInput,
   };
   tags: HighlightTag[] = [];
   tagClicked: HighlightTag;
-  public tailPosition: { top: number; left: number } = { top: 0, left: 0 };
-
-  get currentTailPosition() {
-    return this.tailPosition;
-  }
-
-  setCurrentTailPostion(value) {
-    this.tailPosition = value;
-  }
+  @ViewChild('textarea') textarea: ElementRef;
 
   ngOnInit(): void {
     this.addTags();
@@ -40,19 +48,43 @@ export class AppComponent implements OnInit {
 
   addTags() {
     this.tags = [];
-    const matchMentions = /{{([\'\:\_\-a-zA-Z-9\s])*}}/g;
     let mention;
-
-    while ((mention = matchMentions.exec(this.textValue.value))) {
+    const matchObjectTags = /{{([\_\-a-zA-Z-9])*}}/g;
+    while ((mention = matchObjectTags.exec(this.textValue.value))) {
       this.tags.push({
         indices: {
           start: mention.index,
           end: mention.index + mention[0].length,
         },
         data: mention[0],
+        type: 'property',
       });
     }
+    let functions;
+    const matchFunctionTags =
+      /{{(date?|currency?|number?)([\'\:\_a-zA-Z-9\s])*}}/g;
+
+    while ((functions = matchFunctionTags.exec(this.textValue.value))) {
+      this.tags.push({
+        indices: {
+          start: functions.index,
+          end: functions.index + functions[0].length,
+        },
+        cssClass: 'bg-pink',
+        data: functions[0],
+        type: 'function',
+      });
+
+      console.log(
+        functions,
+        'functions',
+        mention,
+        this.tags.map((t) => t.type)
+      );
+    }
   }
+
+  mentionClosed() {}
 
   addDarkClass(elm: HTMLElement) {
     if (elm.classList.contains('bg-blue')) {
@@ -64,6 +96,10 @@ export class AppComponent implements OnInit {
 
   formatInput(event) {
     return `{{${event.label}}}`;
+  }
+
+  formatFunctionInput(event) {
+    return `{{${event.label} field_name 'yyyy-MM-dd'}}`;
   }
 
   removeDarkClass(elm: HTMLElement) {

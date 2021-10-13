@@ -5,4 +5,5 @@ export interface HighlightTag {
   };
   cssClass?: string;
   data?: any;
+  type: 'property' | 'function';
 }

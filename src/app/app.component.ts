@@ -13,9 +13,22 @@ export class AppComponent implements OnInit {
   textValue = new FormControl(
     `Hello @auret how are you today?\n\nLook I have a #different {{requester_firstName}} color!\n\n{{date logEntry_decidedOn 'yyyy-MM-dd HH:mm'}} is pretty awesome!`
   );
-
+  mentionConfig = {
+    items: <string[]>['Noah', 'Liam', 'Mason', 'Jacob'],
+    triggerChar: '@',
+    mentionSelect: this.formatInput,
+  };
   tags: HighlightTag[] = [];
   tagClicked: HighlightTag;
+  public tailPosition: { top: number; left: number } = { top: 0, left: 0 };
+
+  get currentTailPosition() {
+    return this.tailPosition;
+  }
+
+  setCurrentTailPostion(value) {
+    this.tailPosition = value;
+  }
 
   ngOnInit(): void {
     this.addTags();
@@ -43,6 +56,10 @@ export class AppComponent implements OnInit {
     } else if (elm.classList.contains('bg-pink')) {
       elm.classList.add('bg-pink-dark');
     }
+  }
+
+  formatInput(event) {
+    return `{{${event.label}}}`;
   }
 
   removeDarkClass(elm: HTMLElement) {

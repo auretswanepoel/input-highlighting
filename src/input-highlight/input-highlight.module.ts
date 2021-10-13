@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InputHighlightComponent } from './component/input-highlight.component';
 import { TextInputHighlightContainerDirective } from './directive/input-container.directive';
 import { TextInputElementDirective } from './directive';
+import { MentionModule } from 'angular-mentions';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,7 @@ import { TextInputElementDirective } from './directive';
     TextInputHighlightContainerDirective,
     TextInputElementDirective,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, MentionModule],
   exports: [
     InputHighlightComponent,
     TextInputHighlightContainerDirective,

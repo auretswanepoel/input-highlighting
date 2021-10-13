@@ -1,14 +1,17 @@
-<hello name="{{ name }}"></hello>
-<p>This is a sample of a input highlighter</p>
 <div textInputHighlightContainer>
-  <textarea
-    textInputElement
-    rows="6"
-    class="form-control"
-    [formControl]="textValue"
-    #textarea
-    (input)="addTags()"
-  ></textarea>
+  <mat-form-field>
+    <textarea
+      matInput
+      textInputElement
+      rows="6"
+      class="form-control"
+      [formControl]="textValue"
+      [mentionConfig]="mentionConfig"
+      #textarea
+      (input)="addTags()"
+    ></textarea>
+  </mat-form-field>
+
   <input-highlight
     [tags]="tags"
     [tagCssClass]="'bg-blue'"

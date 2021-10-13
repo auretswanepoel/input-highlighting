@@ -13,8 +13,20 @@ p {
 .bg-pink-dark {
   background-color: #eb5252;
 }
+mat-form-field {
+  width: 100%;
+}
 textarea {
   width: 500px;
+  min-height: 200px;
+}
+.tail {
+  // margin-top: 38px;
+  background: red;
+  width: 50px;
+  min-height: 50px;
+  position: absolute;
+  z-index: 3;
 }
 
 .text-input-highlight-container {
@@ -27,6 +39,7 @@ textarea {
   }
 
   .text-highlight-element {
+    margin-top: 20px;
     overflow: hidden !important;
     word-break: break-word;
     white-space: pre-wrap;
@@ -36,13 +49,14 @@ textarea {
     left: 0;
     right: 0;
     background: white;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
     color: rgba(0, 0, 0, 0);
     z-index: 1;
   }
 
   .text-highlight-tag {
     border-radius: 8px;
-    padding: 1px 3px;
+    padding: 3px 3px;
     margin: -1px -3px;
     overflow-wrap: break-word;
   }

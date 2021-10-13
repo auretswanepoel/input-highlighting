@@ -30,6 +30,7 @@ import {
 })
 export class InputHighlightComponent implements OnChanges, OnDestroy {
   @Input() textInputElement: HTMLTextAreaElement;
+
   @Input() textInputValue: string;
   @Input() tags: HighlightTag[] = [];
   @Input() tagCssClass: string = '';
